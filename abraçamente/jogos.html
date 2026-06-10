@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Jogos - AbraçaMente</title>
+  <link rel="shortcut icon" href="image/Abracamente.png" type="image/x-icon">
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f8fafc;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2563eb;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      max-width: 500px;
+      margin: auto;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px;
+      background: #2563eb;
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+    .progress {
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <button onclick="voltar()">
+            <i class="fa-solid fa-arrow-left"></i>
+            Voltar
+        </button>
+<h1>🎮 Jogos Terapêuticos</h1>
+
+<div class="container">
+
+  <div class="card">
+    <h2>🧠 Jogo da Memória (30%)</h2>
+    <a class="btn" href="memoria.html">Jogar</a>
+  </div>
+
+  <div class="card">
+    <h2>😊 Emoções (30%)</h2>
+    <a class="btn" href="emocoes.html">Jogar</a>
+  </div>
+
+  <div class="card">
+    <h2>🧩 Quebra-cabeça (40%)</h2>
+    <a class="btn" href="quebra.html">Jogar</a>
+  </div>
+
+</div>
+
+<div class="progress" id="progress">
+  Progresso: 0%
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("jogos_" + (localStorage.getItem("loggedUserEmail") || "user"))) || {};
+
+let total = 0;
+if (data.memoria) total += 30;
+if (data.emocoes) total += 30;
+if (data.quebra) total += 40;
+
+document.getElementById("progress").innerText = "Progresso: " + total + "%";
+
+function voltar() {
+  window.location.href = "paciente.html";
+}
+</script>
+
+</body>
+</html>

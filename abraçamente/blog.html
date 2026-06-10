@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - AbraçaMente</title>
+
+ 
+  <link rel="shortcut icon" href="image/Abracamente.png" type="image/x-icon">
+</head>
+
+<style>
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.logo {
+  font-weight: bold;
+  color:#dbeafe;
+}
+
+nav a {
+  margin-left: 15px;
+  text-decoration: none;
+  color: #333;
+}
+
+nav a:hover {
+  color: #1d4ed8;
+  font-weight: bold;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #dbeafe, #e0f2fe);
+}
+
+/* CATEGORIES */
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.categories button {
+  border: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  background: #e5e7eb;
+  cursor: pointer;
+}
+
+/* POSTS */
+.posts {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 20px;
+}
+
+.post-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.post-card a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+/* FOOTER */
+
+.footer{
+
+  width:100%;
+
+  background:white;
+
+  padding:60px 70px 25px;
+
+  margin-top:40px;
+
+  border-top:1px solid #ddd;
+}
+
+.footer-container{
+
+  display:grid;
+
+  grid-template-columns:2fr 1fr 1fr 1.5fr;
+
+  gap:40px;
+
+  align-items:flex-start;
+}
+
+/* LINKS */
+
+.footer-links{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:15px;
+}
+
+.footer-links a{
+
+  text-decoration:none;
+
+  color:#111;
+
+  transition:0.3s;
+}
+
+.footer-links a:hover{
+
+  color:#2563eb;
+
+  transform:translateX(5px);
+
+  font-weight: bold;
+}
+
+/* SOCIAL */
+
+.footer-social{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:18px;
+}
+
+.social-icons{
+
+  display:flex;
+
+  gap:14px;
+}
+
+.social-icons a{
+
+  width:38px;
+  height:38px;
+
+  border-radius:50%;
+
+  background:#111;
+
+  color:white;
+
+  display:flex;
+
+  justify-content:center;
+  align-items:center;
+
+  text-decoration:none;
+
+  transition:0.3s;
+}
+
+.social-icons a:hover{
+
+  background:#2563eb;
+
+  transform:translateY(-4px);
+}
+
+/* FOOTER BOTTOM */
+
+.footer-bottom{
+
+  margin-top:45px;
+
+  padding-top:20px;
+
+  border-top:1px solid #ddd;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  flex-wrap:wrap;
+
+  gap:15px;
+
+  color:#555;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:1000px){
+
+  .footer-container{
+
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .footer{
+
+    padding:50px 25px 25px;
+  }
+
+  .footer-container{
+
+    grid-template-columns:1fr;
+
+    text-align:center;
+  }
+
+  .social-icons{
+
+    justify-content:center;
+  }
+
+  .footer-bottom{
+
+    flex-direction:column;
+
+    align-items:center;
+  }
+
+}
+</style>
+<body>
+
+<header class="header">
+  <div class="logo">AbraçaMente</div>
+
+  <nav>
+    <a href="index.html">Início</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Abracamente Blog</h1>
+  <p>Artigos e guias para famílias e educadores</p>
+</section>
+
+<section class="posts">
+
+  <!-- ARTIGO 1 -->
+  <div class="post-card">
+    <h3>O que é o TDAH?</h3>
+    <p>Entenda os sintomas e como apoiar crianças.</p>
+    <a href="post.html?id=tdah">Ler mais</a>
+  </div>
+
+  <!-- ARTIGO 2 -->
+  <div class="post-card">
+    <h3>Autismo: sinais iniciais</h3>
+    <p>Como identificar sinais precoces.</p>
+    <a href="post.html?id=autismo">Ler mais</a>
+  </div>
+
+  <!-- ARTIGO 3 -->
+  <div class="post-card">
+    <h3>Como criar rotinas eficazes</h3>
+    <p>Estratégias simples para o dia a dia.</p>
+    <a href="post.html?id=rotinas">Ler mais</a>
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <!-- LOGO -->
+
+    <div class="footer-logo">
+
+      <div class="logo-container">
+
+        <img
+          src="image/Abracamente.png"
+          alt="Logo"
+          class="logo-image"
+        />
+
+        <div class="logo-text">
+
+          <h1>
+            AbraçaMente
+          </h1>
+
+          <p>
+            Apoio à Neurodiversidade
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- LINKS 1 -->
+
+    <div class="footer-links">
+
+    
+   
+      <a href="blog.html">Blog</a>
+      <a href="faq.html">FAQ</a>
+   
+
+    </div>
+
+    <!-- LINKS 2 -->
+
+    <div class="footer-links">
+
+    
+
+      <a href="termos e politicas.html">Termos</a>
+      <a href="termos e politicas.html">Privacidade</a>
+
+    </div>
+
+    <!-- SOCIAL -->
+
+<div class="footer-social">
+
+  <div class="social-icons">
+
+    <!-- INSTAGRAM -->
+
+    <a href="https://www.instagram.com/_abracamente?utm_source=qr&igsh=cDUwMmJycWRzNjNk">
+      <i class="fa-brands fa-instagram"></i>
+    </a>
+
+  
+  </div>
+    
+
+      <p>
+        ✉ infoabracamente@gmail.com
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- LINHA -->
+
+  <div class="footer-bottom">
+
+    <p>
+      Copyright © Abracamente, Inc.
+    </p>
+
+    <p>
+      © 3esigm - 2026
+    </p>
+
+  </div>
+
+</footer>
+
+
+</body>
+</html>

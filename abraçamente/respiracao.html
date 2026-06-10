@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Terapia da Respiração - Abracamente</title>
+
+</head>
+
+<style>
+    body{
+  margin:0;
+  font-family:Arial;
+  background:#f8fafc;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.container{
+  text-align:center;
+  background:white;
+  padding:30px;
+  border-radius:18px;
+  width:90%;
+  max-width:450px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+h1{
+  color:#2563eb;
+}
+
+.circle{
+  width:120px;
+  height:120px;
+  margin:25px auto;
+  border-radius:50%;
+  background:linear-gradient(135deg,#2563eb,#60a5fa);
+  transition:all 4s ease-in-out;
+}
+
+.text{
+  font-size:18px;
+  color:#475569;
+  margin-top:10px;
+}
+
+button{
+  margin:10px;
+  padding:12px 18px;
+  border:none;
+  border-radius:12px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.05);
+}
+</style>
+
+<body>
+
+<div class="container">
+
+  <h1>🌬️ Respiração Guiada</h1>
+
+  <div class="circle" id="circle"></div>
+
+  <div class="text" id="text">
+    Clique em iniciar
+  </div>
+
+  <button onclick="start()">Iniciar</button>
+
+  <button onclick="finish()">Concluir</button>
+
+</div>
+
+<script>
+
+    let circle = document.getElementById("circle");
+let text = document.getElementById("text");
+
+let running = false;
+let cycle;
+
+// =========================
+// USER
+// =========================
+const user = JSON.parse(localStorage.getItem("loggedUser"));
+
+if(!user){
+  alert("Faz login primeiro");
+  window.location.href = "login.html";
+}
+
+// =========================
+// START
+// =========================
+function start(){
+
+  if(running) return;
+  running = true;
+
+  let steps = [
+    "Inspire... (4s)",
+    "Segure... (4s)",
+    "Expire... (4s)"
+  ];
+
+  let i = 0;
+
+  cycle = setInterval(() => {
+
+    text.innerText = steps[i];
+
+    if(i === 0){
+      circle.style.transform = "scale(1.5)";
+    }
+
+    if(i === 1){
+      circle.style.transform = "scale(1.5)";
+    }
+
+    if(i === 2){
+      circle.style.transform = "scale(1)";
+    }
+
+    i++;
+    if(i > 2) i = 0;
+
+  }, 4000);
+}
+
+// =========================
+// FINALIZAR + STORAGE
+// =========================
+function finish(){
+
+  if(!running){
+    alert("Inicia primeiro a terapia!");
+    return;
+  }
+
+  clearInterval(cycle);
+  running = false;
+
+  text.innerText = "Sessão concluída ✔️";
+
+  let key = "terapia_" + user.email;
+
+  let data = JSON.parse(localStorage.getItem(key)) || {
+    foco:0,
+    respiracao:0,
+    rotina:0,
+    total:0
+  };
+
+  // 💨 RESPIRAÇÃO = 30%
+  data.respiracao = 30;
+
+  data.total =
+    data.foco +
+    data.respiracao +
+    data.rotina;
+
+  localStorage.setItem(key, JSON.stringify(data));
+
+  document.querySelector(".container").innerHTML = `
+    <h2>🎉 Terapia concluída!</h2>
+    <p>+30% de progresso na Respiração</p>
+
+    <button onclick="window.location.href='terapia.html'">
+      Voltar
+    </button>
+  `;
+}
+</script>
+
+</body>
+</html>

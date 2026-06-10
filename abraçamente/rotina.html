@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Terapia de Rotina - Abracamente</title>
+<link rel="shortcut icon" href="image/Abracamente.png" type="image/x-icon">
+
+</head>
+
+
+<style>
+    body{
+  margin:0;
+  font-family:Arial;
+  background:#f8fafc;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+.container{
+  background:white;
+  width:90%;
+  max-width:650px;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  text-align:center;
+}
+
+h1{
+  color:#2563eb;
+}
+
+.question{
+  font-size:20px;
+  margin-bottom:20px;
+  color:#0f172a;
+}
+
+.option{
+  display:block;
+  width:100%;
+  margin:10px 0;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  background:#f1f5f9;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.option:hover{
+  transform:scale(1.02);
+  background:#e2e8f0;
+}
+
+.correct{
+  background:#22c55e !important;
+  color:white;
+}
+
+.wrong{
+  background:#ef4444 !important;
+  color:white;
+}
+
+#nextBtn{
+  margin-top:20px;
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+#nextBtn:hover{
+  transform:scale(1.03);
+}
+</style>
+<body>
+
+<div class="container">
+
+  <h1>📅 Terapia da Rotina</h1>
+
+  <div id="quiz"></div>
+
+  <button id="nextBtn">Próxima</button>
+
+</div>
+
+<script>const perguntas = [
+  {
+    pergunta: "O João acabou de acordar. O que deve fazer primeiro?",
+    respostas: ["Ir para escola","Escovar os dentes","Dormir","Jantar"],
+    correta: 1
+  },
+  {
+    pergunta: "Depois de escovar os dentes, o que vem a seguir?",
+    respostas: ["Tomar café","Dormir","Jogar futebol","Tomar banho"],
+    correta: 0
+  },
+  {
+    pergunta: "Depois do café da manhã, o que vem a seguir?",
+    respostas: ["Vestir-se","Dormir","Jantar","Escovar os dentes"],
+    correta: 0
+  },
+  {
+    pergunta: "Depois de vestir-se, o que deve fazer?",
+    respostas: ["Ir para escola","Dormir","Jantar","Tomar banho"],
+    correta: 0
+  },
+  {
+    pergunta: "Quando a escola termina, o que normalmente fazemos?",
+    respostas: ["Voltar para casa","Dormir na escola","Tomar café","Escovar os dentes"],
+    correta: 0
+  }
+];
+
+let indice = 0;
+let acertos = 0;
+
+const quiz = document.getElementById("quiz");
+const nextBtn = document.getElementById("nextBtn");
+
+// =========================
+// USER
+// =========================
+const user = JSON.parse(localStorage.getItem("loggedUser"));
+
+if(!user){
+  alert("Faz login primeiro");
+  window.location.href = "login.html";
+}
+
+// =========================
+// MOSTRAR
+// =========================
+function mostrar(){
+
+  const p = perguntas[indice];
+
+  let html = `<div class="question">${p.pergunta}</div>`;
+
+  p.respostas.forEach((r,i)=>{
+    html += `
+      <button class="option" onclick="responder(${i})">
+        ${r}
+      </button>
+    `;
+  });
+
+  quiz.innerHTML = html;
+}
+
+// =========================
+// RESPONDER
+// =========================
+function responder(i){
+
+  const botoes = document.querySelectorAll(".option");
+
+  botoes.forEach(b=>b.disabled=true);
+
+  if(i === perguntas[indice].correta){
+    botoes[i].classList.add("correct");
+    acertos++;
+  } else {
+    botoes[i].classList.add("wrong");
+    botoes[perguntas[indice].correta].classList.add("correct");
+  }
+}
+
+// =========================
+// NEXT
+// =========================
+nextBtn.addEventListener("click", ()=>{
+
+  indice++;
+
+  if(indice < perguntas.length){
+    mostrar();
+  } else {
+    finalizar();
+  }
+
+});
+
+// =========================
+// FINAL + STORAGE
+// =========================
+function finalizar(){
+
+  let key = "terapia_" + user.email;
+
+  let data = JSON.parse(localStorage.getItem(key)) || {
+    foco:0,
+    respiracao:0,
+    rotina:0,
+    total:0
+  };
+
+  // 📅 ROTINA = 40%
+  if(acertos >= 4){
+    data.rotina = 40;
+  } else {
+    data.rotina = 10; // pequeno progresso mesmo se falhar
+  }
+
+  data.total =
+    data.foco +
+    data.respiracao +
+    data.rotina;
+
+  localStorage.setItem(key, JSON.stringify(data));
+
+  quiz.innerHTML = `
+    <h2>🎉 Terapia concluída!</h2>
+    <p>+40% de progresso na Rotina</p>
+
+    <button onclick="window.location.href='terapia.html'">
+      Voltar
+    </button>
+  `;
+
+  nextBtn.style.display = "none";
+}
+
+// iniciar
+mostrar();</script>
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Paciente - Abracamente</title>
+  <link rel="shortcut icon" href="image/Abracamente.png">
+
+  <style>
+/* =========================
+RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f8fafc;
+}
+
+/* =========================
+LAYOUT
+========================= */
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* COLUNAS */
+.left {
+  width: 25%;
+  background: white;
+  padding: 20px;
+  border-right: 1px solid #e2e8f0;
+}
+
+.center {
+  width: 50%;
+  padding: 20px;
+}
+
+.right {
+  width: 25%;
+  background: white;
+  padding: 20px;
+  border-left: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* =========================
+PERFIL
+========================= */
+.profile-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.avatar-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #2563eb;
+}
+
+/* BOTÃO */
+.edit-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+/* =========================
+CARDS
+========================= */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(37,99,235,0.15);
+}
+
+.card h3 {
+  color: #2563eb;
+  margin-top: 10px;
+}
+
+.card p {
+  color: #64748b;
+}
+
+/* =========================
+PROGRESSO
+========================= */
+.progress-card {
+  margin-top: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.bar {
+  width: 100%;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+#globalBar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg,#2563eb,#60a5fa);
+  transition: 0.4s;
+}
+
+/* =========================
+LINKS
+========================= */
+.right a {
+  padding: 12px;
+  text-decoration: none;
+  background: #f1f5f9;
+  border-radius: 10px;
+  color: #2563eb;
+  transition: 0.3s;
+}
+
+.right a:hover {
+  background: #2563eb;
+  color: white;
+}
+
+/* =========================
+RESPONSIVO
+========================= */
+@media(max-width:900px){
+  .dashboard{
+    flex-direction: column;
+  }
+
+  .left,.center,.right{
+    width: 100%;
+  }
+}
+  </style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+  <!-- ESQUERDA -->
+  <div class="left">
+
+    <div class="profile-card">
+
+      <div class="avatar-box">
+        <img id="preview" class="avatar">
+        <button class="edit-btn" onclick="document.getElementById('file').click()">Editar foto</button>
+        <input type="file" id="file" hidden>
+      </div>
+
+      <h3 id="nome"></h3>
+      <p id="email"></p>
+      <p id="numero"></p>
+      <p id="diagnostico"></p>
+
+      <div class="progress-card">
+        <h3>Progresso</h3>
+        <div class="bar"><div id="globalBar"></div></div>
+        <p id="globalText">0%</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CENTRO -->
+  <div class="center">
+
+    <h2>Área do Paciente</h2>
+
+    <div class="cards">
+
+      <a href="jogos.html" class="card">
+        🎮 <h3>Jogos</h3>
+        <p>Treino mental</p>
+      </a>
+
+      <a href="terapia.html" class="card">
+        🧘 <h3>Terapias</h3>
+        <p>Exercícios guiados</p>
+      </a>
+
+      <a href="monitoramento.html" class="card">
+        📊 <h3>Monitoramento</h3>
+        <p>Acompanhamento diário</p>
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- DIREITA -->
+  <div class="right">
+    <a href="comunidade.html">Comunidade</a>
+    <a href="pedido.html">Pedido</a>
+    <a href="consulta.html">Consulta</a>
+    <a href="login.html">Sair</a>
+  </div>
+
+</div>
+
+<script src="progresso.js"></script>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+
+  let user = JSON.parse(localStorage.getItem("loggedUser"));
+
+  if (!user || user.type !== "paciente") {
+    alert("Acesso negado!");
+    location.href = "login.html";
+    return;
+  }
+
+  document.getElementById("nome").innerText = user.nome;
+  document.getElementById("email").innerText = user.email;
+  document.getElementById("numero").innerText = user.numero;
+  document.getElementById("diagnostico").innerText = user.diagnostico;
+
+  let foto = localStorage.getItem("fotoPerfil");
+  if (foto) document.getElementById("preview").src = foto;
+
+  // PROGRESSO GLOBAL
+  let progresso = calcularProgresso(user.email) || 0;
+
+  document.getElementById("globalBar").style.width = progresso + "%";
+  document.getElementById("globalText").innerText = progresso + "%";
+});
+</script>
+
+</body>
+</html>

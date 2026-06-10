@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>AbraçaMente</title>
+
+ <link rel="icon" type="image/png" href="image/Abracamente.png">
+  <link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+</head>
+
+<style>
+    *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  font-family:Arial, sans-serif;
+
+  background:#f5f9fc;
+
+  color:#111;
+
+  overflow-x:hidden;
+}
+
+/* NAVBAR */
+
+.navbar{
+
+  width:100%;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:20px 70px;
+
+  background:white;
+}
+
+.logo-container{
+
+  display:flex;
+  align-items:center;
+
+  gap:14px;
+}
+
+.logo-image{
+
+  width:92px;
+  height:92px;
+  border-radius:50%;
+
+  object-fit:cover;
+}
+
+.logo-text h1{
+color: #111111c9;
+  font-size:36px;
+  font-weight:bold;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.logo-text p{
+
+  color:#666;
+
+  font-size:16px;
+}
+
+/* MENU */
+
+nav{
+
+  display:flex;
+  gap:35px;
+}
+
+
+
+nav a{
+
+  text-decoration:none;
+
+  color:#111;
+
+  font-size:16px;
+
+  font-weight:500;
+
+  transition:0.3s;
+}
+
+nav a:hover{
+
+  color:#2563eb;
+  font-weight: bolder;
+}
+
+/* BOTÃO */
+
+.start-btn{
+
+  background:#2563eb;
+
+  color:white;
+
+  border:none;
+
+  padding:15px 30px;
+
+  border-radius:14px;
+
+  font-size:16px;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.start-btn:hover{
+
+  background:#ffffff;
+  color: #2563eb;
+  font-weight: bold;
+
+}
+
+/* HERO */
+
+.hero{
+
+  width:100%;
+
+  min-height:85vh;
+
+  display:flex;
+  align-items:center;
+
+  padding:20px 70px 60px;
+}
+
+.hero-container{
+
+  width:100%;
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  align-items:center;
+
+  gap:40px;
+}
+
+/* TEXTO */
+
+.hero-left h1{
+
+  font-size:70px;
+
+  line-height:1.1;
+
+  margin-bottom:28px;
+
+  max-width:650px;
+
+  transition:0.4s;
+}
+
+.hero-left p{
+
+  font-size:22px;
+
+  color:#444;
+
+  line-height:1.6;
+
+  max-width:580px;
+
+  margin-bottom:40px;
+}
+
+/* BOTÕES HERO */
+
+.hero-buttons{
+
+  display:flex;
+
+  gap:20px;
+
+  flex-wrap:wrap;
+}
+
+.primary-btn{
+
+  background:#2563eb;
+
+  color:white;
+
+  border:none;
+
+  padding:18px 34px;
+
+  border-radius:14px;
+
+  font-size:18px;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.primary-btn:hover{
+
+  background:#ffffff;
+  color: #2563eb;
+  font-weight: bold;
+
+}
+
+.secondary-btn{
+
+  background:white;
+
+  color:#111;
+
+  border:2px solid #2563eb;
+
+  padding:18px 34px;
+
+  border-radius:14px;
+
+  font-size:18px;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.secondary-btn:hover{
+
+  background:#2563eb;
+
+  color:white;
+}
+
+/* IMAGEM */
+
+.hero-right{
+
+  display:flex;
+
+  justify-content:flex-end;
+}
+
+.hero-right img{
+
+  width:100%;
+
+  max-width:720px;
+
+  object-fit:contain;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:1100px){
+
+  .hero-container{
+
+    grid-template-columns:1fr;
+
+    text-align:center;
+  }
+
+  .hero-left{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+  }
+
+  .hero-left h1{
+
+    font-size:55px;
+  }
+
+  .hero-buttons{
+
+    justify-content:center;
+  }
+
+  .hero-right{
+
+    justify-content:center;
+  }
+
+}
+
+@media(max-width:800px){
+
+  .navbar{
+
+    flex-direction:column;
+
+    gap:25px;
+
+    padding:25px;
+  }
+
+  nav{
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    gap:20px;
+  }
+
+  .hero{
+
+    padding:30px 25px 60px;
+  }
+
+  .hero-left h1{
+
+    font-size:42px;
+  }
+
+  .hero-left p{
+
+    font-size:18px;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .hero-left h1{
+
+    font-size:34px;
+  }
+
+  .hero-left p{
+
+    font-size:17px;
+  }
+
+  .primary-btn,
+  .secondary-btn{
+
+    width:100%;
+  }
+
+}
+
+
+/* ANIMAÇÕES */
+
+.navbar{
+
+  animation:slideDown 1s ease;
+}
+
+.hero-left{
+
+  animation:fadeLeft 1.2s ease;
+}
+
+.hero-right{
+
+  animation:fadeRight 1.2s ease;
+}
+
+.hero-buttons button{
+
+  transition:0.3s;
+}
+
+.hero-buttons button:hover{
+
+  transform:translateY(-5px);
+}
+
+/* KEYFRAMES */
+
+@keyframes fadeLeft{
+
+  from{
+
+    opacity:0;
+    transform:translateX(-40px);
+  }
+
+  to{
+
+    opacity:1;
+    transform:translateX(0);
+  }
+
+}
+
+@keyframes fadeRight{
+
+  from{
+
+    opacity:0;
+    transform:translateX(40px);
+  }
+
+  to{
+
+    opacity:1;
+    transform:translateX(0);
+  }
+
+}
+
+@keyframes slideDown{
+
+  from{
+
+    opacity:0;
+    transform:translateY(-30px);
+  }
+
+  to{
+
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+/* FOOTER */
+
+.footer{
+
+  width:100%;
+
+  background:white;
+
+  padding:60px 70px 25px;
+
+  margin-top:40px;
+
+  border-top:1px solid #ddd;
+}
+
+.footer-container{
+
+  display:grid;
+
+  grid-template-columns:2fr 1fr 1fr 1.5fr;
+
+  gap:40px;
+
+  align-items:flex-start;
+}
+
+/* LINKS */
+
+.footer-links{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:15px;
+}
+
+.footer-links a{
+
+  text-decoration:none;
+
+  color:#111;
+
+  transition:0.3s;
+}
+
+.footer-links a:hover{
+
+  color:#2563eb;
+
+  transform:translateX(5px);
+
+  font-weight: bold;
+}
+
+/* SOCIAL */
+
+.footer-social{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:18px;
+}
+
+.social-icons{
+
+  display:flex;
+
+  gap:14px;
+}
+
+.social-icons a{
+
+  width:38px;
+  height:38px;
+
+  border-radius:50%;
+
+  background:#111;
+
+  color:white;
+
+  display:flex;
+
+  justify-content:center;
+  align-items:center;
+
+  text-decoration:none;
+
+  transition:0.3s;
+}
+
+.social-icons a:hover{
+
+  background:#2563eb;
+
+  transform:translateY(-4px);
+}
+
+/* FOOTER BOTTOM */
+
+.footer-bottom{
+
+  margin-top:45px;
+
+  padding-top:20px;
+
+  border-top:1px solid #ddd;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  flex-wrap:wrap;
+
+  gap:15px;
+
+  color:#555;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:1000px){
+
+  .footer-container{
+
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .footer{
+
+    padding:50px 25px 25px;
+  }
+
+  .footer-container{
+
+    grid-template-columns:1fr;
+
+    text-align:center;
+  }
+
+  .social-icons{
+
+    justify-content:center;
+  }
+
+  .footer-bottom{
+
+    flex-direction:column;
+
+    align-items:center;
+  }
+
+}
+
+</style>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header class="navbar">
+
+    <div class="logo-container">
+
+      <img
+        src="image/Abracamente.png"
+        alt="Logo AbraçaMente"
+        class="logo-image"
+      />
+
+      <div class="logo-text">
+        <h1>AbraçaMente</h1>
+        <p>Apoio à Neurodiversidade</p>
+      </div>
+
+    </div>
+
+    <nav>
+
+      <a href="index.html">Início</a>
+      <a href="+sobre.html">+Sobre</a>
+      <a href="terapias.html">Terapia</a>
+      <a href="comunidade.html">Comunidade</a>
+      <a href="contacto.html">Contacto</a>
+
+    </nav>
+
+    <button class="start-btn" onclick="window.location.href='registro.php'">
+      Começar Agora
+    </button>
+
+  </header>
+
+  <!-- HERO SECTION -->
+
+  <section class="hero">
+
+    <div class="hero-container">
+
+      <!-- LADO ESQUERDO -->
+
+      <div class="hero-left">
+
+        <h1 id="slide-text">
+          Cada mente é única. Cada cuidado também.
+        </h1>
+
+        <p>
+          Tecnologia e carinho unidos para apoiar
+          pessoas com autismo, TDAH e síndrome de Down.
+        </p>
+
+        <div class="hero-buttons">
+
+          <button class="primary-btn">
+            <nav><a href="registro.html">Explorar Plataforma</a></nav>
+          </button>
+
+          <button class="secondary-btn">
+            <nav><a href="ver.html">Ver Demonstração</a></nav>
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- LADO DIREITO -->
+
+      <div class="hero-right">
+
+        <img
+          src="image/autismo.png"
+          alt="Família"
+        />
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <!-- LOGO -->
+
+    <div class="footer-logo">
+
+      <div class="logo-container">
+
+        <img
+          src="image/Abracamente.png"
+          alt="Logo"
+          class="logo-image"
+        />
+
+        <div class="logo-text">
+
+          <h1>
+            AbraçaMente
+          </h1>
+
+          <p>
+            Apoio à Neurodiversidade
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- LINKS 1 -->
+
+    <div class="footer-links">
+
+    
+   
+      <a href="blog.html">Blog</a>
+      <a href="faq.html">FAQ</a>
+   
+
+    </div>
+
+    <!-- LINKS 2 -->
+
+    <div class="footer-links">
+
+    
+
+      <a href="termos e politicas.html">Termos</a>
+      <a href="termos e politicas.html">Privacidade</a>
+
+    </div>
+
+    <!-- SOCIAL -->
+
+<div class="footer-social">
+
+  <div class="social-icons">
+
+    <!-- INSTAGRAM -->
+
+    <a href="https://www.instagram.com/_abracamente?utm_source=qr&igsh=cDUwMmJycWRzNjNk">
+      <i class="fa-brands fa-instagram"></i>
+    </a>
+
+  
+  </div>
+    
+
+      <p>
+        ✉ infoabracamente@gmail.com
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- LINHA -->
+
+  <div class="footer-bottom">
+
+    <p>
+      Copyright © Abracamente, Inc.
+    </p>
+
+    <p>
+      © 3esigm - 2026
+    </p>
+
+  </div>
+
+</footer>
+
+  <script>
+
+    const messages = [
+
+  "Cada mente é única. Cada cuidado também.",
+
+  "Tecnologia e carinho para apoiar cada jornada.",
+
+  "Conectando famílias, terapias e inclusão."
+
+];
+
+const slideText = document.getElementById("slide-text");
+
+let current = 0;
+
+setInterval(() => {
+
+  current++;
+
+  if(current >= messages.length){
+    current = 0;
+  }
+
+  slideText.style.opacity = 0;
+
+  setTimeout(() => {
+
+    slideText.innerText = messages[current];
+
+    slideText.style.opacity = 1;
+
+  }, 400);
+
+}, 5000);
+
+
+
+// ADICIONA ISSO NO FINAL DO script.js
+
+/* ANIMAÇÃO SUAVE HERO */
+
+window.addEventListener("load", () => {
+
+  document.querySelector(".hero-left")
+  .style.opacity = "1";
+
+  document.querySelector(".hero-right")
+  .style.opacity = "1";
+
+});
+
+/* EFEITO SUAVE NO TEXTO */
+
+slideText.style.transition =
+"opacity 0.5s ease";
+
+/* EFEITO NOS LINKS */
+
+const navLinks =
+document.querySelectorAll("nav a");
+
+navLinks.forEach(link => {
+
+  link.addEventListener("mouseenter", () => {
+
+    link.style.transform =
+    "translateY(-2px)";
+
+  });
+
+  link.addEventListener("mouseleave", () => {
+
+    link.style.transform =
+    "translateY(0px)";
+
+  });
+
+});
+
+  </script>
+
+</body>
+</html>
