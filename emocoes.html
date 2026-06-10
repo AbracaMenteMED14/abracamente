@@ -256,28 +256,24 @@ function answer(emotion){
     }
 
 }
-
 function finishGame(){
 
-    let user =
-    JSON.parse(localStorage.getItem("loggedUser"));
+    let user = JSON.parse(localStorage.getItem("loggedUser"));
 
-    if(user){
+    if(!user) return;
 
-        let key = "jogos_" + user.email;
+    let key = "jogos_" + user.email;
 
-        let data =
-        JSON.parse(localStorage.getItem(key)) || {};
+    let data = JSON.parse(localStorage.getItem(key)) || {
+        memoria: 0,
+        emocoes: 0,
+        quebra: 0
+    };
 
-        data.emocoes = true;
-        data.progressoEmocoes = 30;
+    // ✅ CORRETO: valor numérico (30%)
+    data.emocoes = 30;
 
-        localStorage.setItem(
-            key,
-            JSON.stringify(data)
-        );
-
-    }
+    localStorage.setItem(key, JSON.stringify(data));
 
     setTimeout(()=>{
 
@@ -286,8 +282,8 @@ function finishGame(){
         window.location.href = "jogos.html";
 
     },800);
-
 }
+
 
 </script>
 

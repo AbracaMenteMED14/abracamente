@@ -836,25 +836,42 @@ function salvarMonitoramento() {
     return;
   }
 
+  const progresso = Number(document.getElementById("progressoTexto").innerText.replace("%",""));
+
   const registro = {
     data: hoje,
     humor: humorSelecionado,
     sono: { horas, qualidade },
-    progresso: document.getElementById("progressoTexto").innerText
+    observacao: observacao,
+    progresso: progresso
   };
 
   // =============================
-  // 🔥 GUARDAR MONITORAMENTO
+  // HISTÓRICO COMPLETO
   // =============================
   let keyMonitoramento = "monitoramento_" + emailPaciente;
   let dados = JSON.parse(localStorage.getItem(keyMonitoramento)) || [];
 
   dados.push(registro);
-
   localStorage.setItem(keyMonitoramento, JSON.stringify(dados));
 
   // =============================
-  // 🔥 GUARDAR OBSERVAÇÃO (SEPARADO)
+  // 🔥 PROGRESSO GLOBAL (IMPORTANTE)
+  // =============================
+  let keyProg = "monitoramento_progress_" + emailPaciente;
+
+  let progressoAtual = JSON.parse(localStorage.getItem(keyProg)) || {
+    total: 0,
+    dias: 0
+  };
+
+  progressoAtual.total += progresso;
+  progressoAtual.dias += 1;
+
+  localStorage.setItem(keyProg, JSON.stringify(progressoAtual));
+
+  // =============================
+  // OBSERVAÇÃO
   // =============================
   if (observacao.trim() !== "") {
 

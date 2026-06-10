@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pedido de Acompanhamento - Abracamente</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f4f7fb;
+    padding:20px;
+}
+
+.container{
+    max-width:800px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1{
+    color:#2563eb;
+    margin-bottom:20px;
+}
+
+h3{
+    margin-bottom:10px;
+}
+
+button{
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.obs{
+    background:#f8fafc;
+    padding:15px;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Pedido de Acompanhamento</h1>
+
+<div class="card">
+
+<h3>Paciente</h3>
+
+<p><strong>Nome:</strong> <span id="nome"></span></p>
+
+<p><strong>Email:</strong> <span id="email"></span></p>
+
+<p><strong>Diagnóstico:</strong> <span id="diagnostico"></span></p>
+
+<p><strong>Progresso:</strong> <span id="progresso"></span></p>
+
+</div>
+
+<div class="card">
+
+<h3>Última Observação</h3>
+
+<div class="obs" id="observacao">
+Sem observações.
+</div>
+
+</div>
+
+<div class="card">
+
+<button onclick="solicitar()">
+Solicitar Acompanhamento
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+// =====================
+// PROFISSIONAL LOGADO
+// =====================
+let profissional =
+JSON.parse(localStorage.getItem("loggedUser"));
+
+if(!profissional){
+    alert("Faz login primeiro");
+    window.location.href="login.html";
+}
+
+// =====================
+// EMAIL DA URL
+// =====================
+const params =
+new URLSearchParams(window.location.search);
+
+const emailPaciente =
+params.get("email");
+
+// =====================
+// USERS
+// =====================
+let users =
+JSON.parse(localStorage.getItem("users")) || [];
+
+let paciente =
+users.find(
+u => u.email === emailPaciente
+);
+
+if(!paciente){
+
+    alert("Paciente não encontrado");
+
+    window.location.href="profissional.html";
+}
+
+// =====================
+// DADOS PACIENTE
+// =====================
+document.getElementById("nome").innerText =
+paciente.nome;
+
+document.getElementById("email").innerText =
+paciente.email;
+
+document.getElementById("diagnostico").innerText =
+paciente.diagnostico || "Não definido";
+
+// =====================
+// PROGRESSO
+// =====================
+document.getElementById("progresso").innerText =
+paciente.progresso || "0%";
+
+// =====================
+// OBSERVAÇÕES
+// =====================
+let obs =
+JSON.parse(
+localStorage.getItem(
+"observacao_" + paciente.email
+)
+) || [];
+
+if(obs.length > 0){
+
+    let ultima =
+    obs[obs.length - 1];
+
+    document.getElementById("observacao").innerText =
+    ultima.texto;
+}
+
+// =====================
+// PEDIDO
+// =====================
+function solicitar(){
+
+    let pedidos =
+    JSON.parse(localStorage.getItem("pedidos")) || [];
+
+    let existe =
+    pedidos.find(p =>
+        p.pacienteEmail === paciente.email &&
+        p.profissionalEmail === profissional.email
+    );
+
+    if(existe){
+        alert("Já existe um pedido para este paciente.");
+        return;
+    }
+
+  pedidos.push({
+
+    pacienteNome: paciente.nome,
+    pacienteEmail: paciente.email,
+
+    profissionalNome: profissional.nome,
+    profissionalEmail: profissional.email,
+
+    profissionalNumero: profissional.numero,
+    area: profissional.area,
+
+    diagnostico: paciente.diagnostico,
+
+    status: "pendente",
+    data: new Date().toLocaleDateString()
+
+});
+
+    localStorage.setItem(
+        "pedidos",
+        JSON.stringify(pedidos)
+    );
+
+    alert("Pedido enviado com sucesso!");
+}
+
+</script>
+
+</body>
+</html>

@@ -51,8 +51,6 @@ body{
   box-shadow:0 10px 25px rgba(0,0,0,0.08);
   transition:0.3s;
   cursor:pointer;
-  position:relative;
-  overflow:hidden;
 }
 
 .card:hover{
@@ -67,23 +65,6 @@ body{
 
 .card p{
   color:#64748b;
-}
-
-/* brilho */
-.card::before{
-  content:"";
-  position:absolute;
-  top:-50%;
-  left:-50%;
-  width:200%;
-  height:200%;
-  background:radial-gradient(circle, rgba(37,99,235,0.15), transparent 60%);
-  opacity:0;
-  transition:0.4s;
-}
-
-.card:hover::before{
-  opacity:1;
 }
 
 /* PROGRESSO */
@@ -170,34 +151,40 @@ button:hover{
 
 </div>
 
+
+
+
+<script src="progresso.js"></script>
+
 <script>
 
-// LOGIN CHECK
+// 🔐 LOGIN CHECK
 const user = JSON.parse(localStorage.getItem("loggedUser"));
 
-if(!user){
+if (!user) {
   alert("Faz login primeiro");
-  window.location.href="login.html";
+  window.location.href = "login.html";
 }
 
-const key = "terapia_" + user.email;
+const email = user.email;
 
-// PROGRESSO
-let data = JSON.parse(localStorage.getItem(key)) || {
-  foco:0,
-  respiracao:0,
-  rotina:0
+// 🔑 dados únicos do paciente
+let terapias = JSON.parse(localStorage.getItem("terapia_" + email)) || {
+  foco: 0,
+  respiracao: 0,
+  rotina: 0
 };
 
-function updateBars(){
-  document.getElementById("focoBar").style.width = data.foco + "%";
-  document.getElementById("respBar").style.width = data.respiracao + "%";
-  document.getElementById("rotinaBar").style.width = data.rotina + "%";
+// 📊 função global
+function updateBars() {
+  document.getElementById("focoBar").style.width = (terapias.foco || 0) + "%";
+  document.getElementById("respBar").style.width = (terapias.respiracao || 0) + "%";
+  document.getElementById("rotinaBar").style.width = (terapias.rotina || 0) + "%";
 }
 
 updateBars();
 
-// ABRIR TERAPIAS
+// 🚀 abrir terapias
 function abrir(tipo){
 
   if(tipo === "foco"){

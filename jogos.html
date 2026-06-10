@@ -57,10 +57,13 @@
 </head>
 
 <body>
+
   <button onclick="voltar()">
             <i class="fa-solid fa-arrow-left"></i>
             Voltar
         </button>
+
+
 <h1>🎮 Jogos Terapêuticos</h1>
 
 <div class="container">
@@ -86,17 +89,25 @@
   Progresso: 0%
 </div>
 
+<script src="progresso.js"></script>
 <script>
-let data = JSON.parse(localStorage.getItem("jogos_" + (localStorage.getItem("loggedUserEmail") || "user"))) || {};
+let user = JSON.parse(localStorage.getItem("loggedUser"));
 
-let total = 0;
-if (data.memoria) total += 30;
-if (data.emocoes) total += 30;
-if (data.quebra) total += 40;
+let data = JSON.parse(localStorage.getItem("jogos_" + user.email)) || {
+  memoria: 0,
+  emocoes: 0,
+  quebra: 0
+};
 
-document.getElementById("progress").innerText = "Progresso: " + total + "%";
+let total =
+  (data.memoria || 0) +
+  (data.emocoes || 0) +
+  (data.quebra || 0);
 
-function voltar() {
+document.getElementById("progress").innerText =
+  "Progresso: " + total + "%";
+
+  function voltar() {
   window.location.href = "paciente.html";
 }
 </script>

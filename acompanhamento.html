@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Acompanhamento - Abracamente</title>
+<link rel="shortcut icon" href="image/Abracamente.png" type="image/x-icon">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#f4f7fb;
+padding:20px;
+}
+
+h1{
+text-align:center;
+margin-bottom:25px;
+color:#2563eb;
+}
+
+.container{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:20px;
+}
+
+.box{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+.box h2{
+margin-bottom:15px;
+color:#2563eb;
+}
+
+.card{
+background:#f8fafc;
+padding:15px;
+border-radius:10px;
+margin-bottom:15px;
+}
+
+.card p{
+margin:5px 0;
+}
+
+button{
+border:none;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+margin-top:10px;
+}
+
+.accept{
+background:#22c55e;
+color:white;
+}
+
+.reject{
+background:#ef4444;
+color:white;
+}
+
+.back{
+display:block;
+margin:30px auto;
+background:#2563eb;
+color:white;
+padding:12px 20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+@media(max-width:900px){
+
+.container{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Acompanhamentos</h1>
+
+<div class="container">
+
+<div class="box">
+<h2>Pedidos</h2>
+<div id="pendentes"></div>
+</div>
+
+<div class="box">
+<h2>Pedidos Negados</h2>
+<div id="negados"></div>
+</div>
+
+<div class="box">
+<h2>Pedidos Aceites</h2>
+<div id="aceites"></div>
+</div>
+
+</div>
+
+<button class="back" onclick="window.location.href='paciente.html'">
+Voltar ao Perfil
+</button>
+
+<script>
+let user =
+JSON.parse(localStorage.getItem("loggedUser"));
+
+if (!user) {
+    location.href = "login.html";
+}
+
+function render() {
+
+    let pedidos =
+    JSON.parse(localStorage.getItem("pedidos")) || [];
+
+    let meusPedidos =
+    pedidos.filter(
+        p => p.pacienteEmail === user.email
+    );
+
+    let pendentes =
+    document.getElementById("pendentes");
+
+    let negados =
+    document.getElementById("negados");
+
+    let aceites =
+    document.getElementById("aceites");
+
+    pendentes.innerHTML = "";
+    negados.innerHTML = "";
+    aceites.innerHTML = "";
+
+    meusPedidos.forEach((pedido,index)=>{
+
+        let html = `
+        <div class="card">
+
+            <p>
+                <strong>${pedido.profissionalNome}</strong>
+            </p>
+
+            <p>
+                Área: ${pedido.area || "Não definida"}
+            </p>
+
+            <p>
+                Email: ${pedido.profissionalEmail || "-"}
+            </p>
+
+            <p>
+                Número: ${pedido.profissionalNumero || "-"}
+            </p>
+        `;
+
+        if (pedido.status === "pendente") {
+
+            html += `
+            <button
+            class="accept"
+            onclick="aceitar(${index})">
+                Aceitar
+            </button>
+
+            <button
+            class="reject"
+            onclick="recusar(${index})">
+                Recusar
+            </button>
+            `;
+
+            html += `</div>`;
+
+            pendentes.innerHTML += html;
+        }
+
+        else if (pedido.status === "aceite") {
+
+            html += `</div>`;
+
+            aceites.innerHTML += html;
+        }
+
+        else if (pedido.status === "negado") {
+
+            html += `</div>`;
+
+            negados.innerHTML += html;
+        }
+
+    });
+
+}
+
+function aceitar(index){
+
+    let pedidos =
+    JSON.parse(localStorage.getItem("pedidos")) || [];
+
+    let meusPedidos =
+    pedidos.filter(
+        p => p.pacienteEmail === user.email
+    );
+
+    let pedido = meusPedidos[index];
+
+    let real = pedidos.find(p =>
+
+        p.pacienteEmail === pedido.pacienteEmail &&
+        p.profissionalEmail === pedido.profissionalEmail
+
+    );
+
+    if(real){
+
+        real.status = "aceite";
+
+        localStorage.setItem(
+            "pedidos",
+            JSON.stringify(pedidos)
+        );
+
+        render();
+    }
+
+}
+
+function recusar(index){
+
+    let pedidos =
+    JSON.parse(localStorage.getItem("pedidos")) || [];
+
+    let meusPedidos =
+    pedidos.filter(
+        p => p.pacienteEmail === user.email
+    );
+
+    let pedido = meusPedidos[index];
+
+    let real = pedidos.find(p =>
+
+        p.pacienteEmail === pedido.pacienteEmail &&
+        p.profissionalEmail === pedido.profissionalEmail
+
+    );
+
+    if(real){
+
+        real.status = "negado";
+
+        localStorage.setItem(
+            "pedidos",
+            JSON.stringify(pedidos)
+        );
+
+        render();
+    }
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>
+

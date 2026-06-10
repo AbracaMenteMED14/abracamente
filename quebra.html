@@ -104,6 +104,8 @@ h1{
 
 </div>
 
+<script src="progresso.js"></script>
+
 <script>
 
 const board = document.getElementById("board");
@@ -215,10 +217,14 @@ function finish(){
 
     let key = "jogos_" + user.email;
 
-    let data = JSON.parse(localStorage.getItem(key)) || {};
+    let data = JSON.parse(localStorage.getItem(key)) || {
+      memoria: 0,
+      emocoes: 0,
+      quebra: 0
+    };
 
-    data.quebraCabeca = true;
-    data.progressoQuebraCabeca = 40;
+    // atualiza corretamente
+    data.quebra = 40;
 
     localStorage.setItem(key, JSON.stringify(data));
   }
@@ -227,6 +233,7 @@ function finish(){
     window.location.href = "jogos.html";
   },1500);
 }
+
 
 </script>
 

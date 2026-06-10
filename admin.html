@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin - AbraçaMente</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f4f7fb;
+  display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:250px;
+  background:#1e3a8a;
+  color:white;
+  height:100vh;
+  padding:20px;
+  position:fixed;
+}
+
+.sidebar h2{
+  margin-bottom:20px;
+}
+
+.menu button{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#2563eb;
+  color:white;
+  font-weight:bold;
+  transition:0.2s;
+}
+
+.menu button:hover{
+  background:#1d4ed8;
+  transform:scale(1.03);
+}
+
+/* CONTENT */
+.content{
+  margin-left:270px;
+  padding:20px;
+  width:100%;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  cursor:pointer;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
+
+/* LISTAS */
+.item{
+  background:white;
+  padding:15px;
+  margin-bottom:10px;
+  border-radius:10px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.08);
+}
+
+button.action{
+  margin-top:8px;
+  padding:8px 12px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.delete{background:red;color:white;}
+.view{background:#2563eb;color:white;}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>⚙️ Admin</h2>
+
+  <div class="menu">
+    <button onclick="dashboard()">Dashboard</button>
+    <button onclick="verPacientes()">Pacientes</button>
+    <button onclick="verProfissionais()">Profissionais</button>
+    <button onclick="verConsultas()">Consultas</button>
+    <button onclick="verPedidos()">Pedidos</button>
+    <button onclick="verPosts()">Comunidade</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content" id="content"></div>
+
+<script>
+
+// =====================
+// LOGIN ADMIN CHECK
+// =====================
+const admin = JSON.parse(localStorage.getItem("loggedUser"));
+
+if (!admin || admin.type !== "admin") {
+  alert("Acesso negado");
+  location.href = "login.html";
+}
+
+// =====================
+// DADOS
+// =====================
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+let consultas = JSON.parse(localStorage.getItem("consultas")) || [];
+let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+
+// =====================
+// DASHBOARD
+// =====================
+function dashboard(){
+
+  let pacientes = users.filter(u=>u.type==="paciente").length;
+  let profs = users.filter(u=>u.type==="profissional").length;
+
+  document.getElementById("content").innerHTML = `
+    <h1>Dashboard</h1>
+
+    <div class="cards">
+
+      <div class="card">👤 Pacientes<br><b>${pacientes}</b></div>
+
+      <div class="card">👨‍⚕️ Profissionais<br><b>${profs}</b></div>
+
+      <div class="card">💬 Posts<br><b>${posts.length}</b></div>
+
+      <div class="card">📅 Consultas<br><b>${consultas.length}</b></div>
+
+    </div>
+  `;
+}
+
+// =====================
+// PACIENTES
+// =====================
+function verPacientes(){
+
+  let pacientes = users.filter(u=>u.type==="paciente");
+
+  document.getElementById("content").innerHTML =
+  `<h1>Pacientes</h1>` +
+  pacientes.map(p=>`
+    <div class="item">
+      <b>${p.nome}</b><br>
+      ${p.email}<br>
+      Diagnóstico: ${p.diagnostico || "-"}<br>
+
+      <button class="action delete" onclick="apagarUser('${p.email}')">
+        Apagar
+      </button>
+    </div>
+  `).join("");
+}
+
+// =====================
+// PROFISSIONAIS
+// =====================
+function verProfissionais(){
+
+  let profs = users.filter(u=>u.type==="profissional");
+
+  document.getElementById("content").innerHTML =
+  `<h1>Profissionais</h1>` +
+  profs.map(p=>`
+    <div class="item">
+      <b>${p.nome}</b><br>
+      ${p.email}<br>
+      Área: ${p.area || "-"}<br>
+      Número: ${p.numero || "-"}<br>
+
+      <button class="action delete" onclick="apagarUser('${p.email}')">
+        Apagar
+      </button>
+    </div>
+  `).join("");
+}
+
+// =====================
+// CONSULTAS
+// =====================
+function verConsultas(){
+
+  document.getElementById("content").innerHTML =
+  `<h1>Consultas</h1>` +
+  consultas.map(c=>`
+    <div class="item">
+      Paciente: ${c.pacienteEmail}<br>
+      Profissional: ${c.profissionalEmail}<br>
+      ${c.data} - ${c.hora}<br>
+      Status: ${c.status}
+    </div>
+  `).join("");
+}
+
+// =====================
+// PEDIDOS
+// =====================
+function verPedidos(){
+
+  document.getElementById("content").innerHTML =
+  `<h1>Pedidos</h1>` +
+  pedidos.map(p=>`
+    <div class="item">
+      <b>${p.pacienteNome}</b><br>
+      Profissional: ${p.profissionalNome}<br>
+      Status: ${p.status}
+    </div>
+  `).join("");
+}
+
+// =====================
+// POSTS
+// =====================
+function verPosts(){
+
+  document.getElementById("content").innerHTML =
+  `<h1>Comunidade</h1>` +
+  posts.map((p,i)=>`
+    <div class="item">
+      <b>${p.autor}</b><br>
+      ${p.texto}<br>
+
+      <button class="action delete" onclick="apagarPost(${i})">
+        Apagar
+      </button>
+    </div>
+  `).join("");
+}
+
+// =====================
+// APAGAR USER
+// =====================
+function apagarUser(email){
+
+  users = users.filter(u=>u.email!==email);
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert("Utilizador apagado");
+  verPacientes();
+}
+
+// =====================
+// APAGAR POST
+// =====================
+function apagarPost(i){
+
+  posts.splice(i,1);
+  localStorage.setItem("posts", JSON.stringify(posts));
+
+  verPosts();
+}
+
+// INIT
+dashboard();
+
+</script>
+
+</body>
+</html>

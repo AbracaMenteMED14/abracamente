@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comunidade - AbraçaMente</title>
+
+<style>
+
+body{
+  font-family:Arial;
+  background:#f4f7fb;
+  margin:0;
+  padding:20px;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+}
+
+.post{
+  background:white;
+  padding:15px;
+  border-radius:15px;
+  margin-bottom:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.post img{
+  width:100%;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.lock{
+  text-align:center;
+  padding:20px;
+  background:#fff;
+  border-radius:15px;
+  margin-bottom:20px;
+  color:#2563eb;
+}
+
+button{
+  background:#2563eb;
+  color:white;
+  border:none;
+  padding:10px 15px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>🌍 Comunidade AbraçaMente</h1>
+
+  <div id="feed"></div>
+
+</div>
+
+<script>
+
+// posts globais
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+let user = JSON.parse(localStorage.getItem("loggedUser"));
+
+// =====================
+// RENDER FEED PÚBLICO
+// =====================
+function render(){
+
+  let feed = document.getElementById("feed");
+  feed.innerHTML = "";
+
+  if(posts.length === 0){
+    feed.innerHTML = "<p>Nenhum post ainda.</p>";
+    return;
+  }
+
+  posts.forEach(p => {
+
+    feed.innerHTML += `
+      <div class="post">
+        <strong>${p.userName}</strong><br>
+        <p>${p.text}</p>
+
+        ${p.image ? `<img src="${p.image}">` : ""}
+
+        <p>❤️ ${p.likes || 0}</p>
+
+        ${user ? "" : `
+          <div class="lock">
+            Faz login para comentar e interagir
+          </div>
+        `}
+      </div>
+    `;
+
+  });
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>

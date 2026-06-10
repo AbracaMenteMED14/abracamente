@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda - Abracamente</title>
+
+<style>
+
+/* =======================
+BASE
+======================= */
+body{
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(135deg,#f4f7fb,#e9f1ff);
+  padding:20px;
+}
+
+/* container */
+.container{
+  max-width:900px;
+  margin:auto;
+}
+
+/* título */
+h1{
+  color:#2563eb;
+  text-align:center;
+  margin-bottom:20px;
+}
+
+/* =======================
+FORMULÁRIO
+======================= */
+input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #ddd;
+  transition:0.3s;
+}
+
+input:focus{
+  border-color:#2563eb;
+  transform:scale(1.01);
+}
+
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  background:#2563eb;
+  color:white;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#1d4ed8;
+  transform:scale(1.02);
+}
+
+/* =======================
+LISTA
+======================= */
+#lista{
+  margin-top:25px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+/* CARD */
+.card{
+  background:white;
+  padding:15px;
+  border-radius:15px;
+  box-shadow:0 10px 20px rgba(0,0,0,0.08);
+  border-left:5px solid #2563eb;
+  animation:fadeIn 0.4s ease;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
+
+/* animação */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* STATUS */
+.badge{
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.pendente{background:#fff7cd;color:#b45309;}
+.aceite{background:#dcfce7;color:#166534;}
+.recusado{background:#fee2e2;color:#991b1b;}
+
+/* botões internos */
+.card button{
+  width:auto;
+  margin-top:10px;
+  margin-right:5px;
+  padding:8px 12px;
+  font-size:12px;
+}
+
+.card button:first-of-type{
+  background:#16a34a;
+}
+
+.card button:last-of-type{
+  background:#dc2626;
+}
+
+/* =======================
+RESPONSIVO
+======================= */
+@media(max-width:600px){
+  body{padding:10px;}
+  .card{font-size:14px;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📅 Agenda de Consultas</h1>
+
+<input type="date" id="data">
+<input type="time" id="hora">
+
+<button onclick="agendar()">Agendar Consulta</button>
+
+<div id="lista"></div>
+
+</div>
+
+<script>
+
+// =====================
+// USER
+// =====================
+const user = JSON.parse(localStorage.getItem("loggedUser"));
+
+if(!user){
+  location.href = "login.html";
+}
+
+// =====================
+// DADOS
+// =====================
+let consultas = JSON.parse(localStorage.getItem("consultas")) || [];
+
+// =====================
+// AGENDAR
+// =====================
+function agendar(){
+
+  let data = document.getElementById("data").value;
+  let hora = document.getElementById("hora").value;
+
+  if(!data || !hora){
+    alert("Preenche data e hora");
+    return;
+  }
+
+  consultas.push({
+    id: Date.now(),
+    pacienteEmail: user.email,
+    profissionalEmail: user.email, // se quiseres depois trocar por seleção
+    data,
+    hora,
+    status:"pendente"
+  });
+
+  localStorage.setItem("consultas", JSON.stringify(consultas));
+
+  render();
+}
+
+// =====================
+// ACEITAR
+// =====================
+function aceitar(id){
+  let c = consultas.find(x => x.id === id);
+  c.status = "aceite";
+  localStorage.setItem("consultas", JSON.stringify(consultas));
+  render();
+}
+
+// =====================
+// RECUSAR
+// =====================
+function recusar(id){
+  let c = consultas.find(x => x.id === id);
+  c.status = "recusado";
+  localStorage.setItem("consultas", JSON.stringify(consultas));
+  render();
+}
+
+// =====================
+// RENDER
+// =====================
+function render(){
+
+  let box = document.getElementById("lista");
+  box.innerHTML = "";
+
+  let minhas = consultas.filter(c =>
+    c.pacienteEmail === user.email ||
+    c.profissionalEmail === user.email
+  );
+
+  minhas.forEach(c => {
+
+    box.innerHTML += `
+      <div class="card">
+
+        <p><strong>${c.data} - ${c.hora}</strong></p>
+
+        <span class="badge ${c.status}">
+          ${c.status}
+        </span>
+
+        ${user.type === "profissional" && c.status === "pendente" ? `
+          <div>
+            <button onclick="aceitar(${c.id})">Aceitar</button>
+            <button onclick="recusar(${c.id})">Recusar</button>
+          </div>
+        ` : ""}
+
+      </div>
+    `;
+  });
+}
+
+render();
+
+</script>
+
+</body>
+</html>

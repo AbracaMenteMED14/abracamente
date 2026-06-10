@@ -188,9 +188,10 @@ tr:hover {
   <!-- 🔵 DIREITA - LINKS -->
   <div class="right">
 
-    <a href="comunidade.html">Comunidade</a>
+    <a href="comunidadepro.html">Comunidade</a>
+    <a href="pedido.html">Pacientes</a>
     <a href="agenda.html">Agenda</a>
-    <a href="login.html">Sair</a>
+    <a href="index.html">Sair</a>
 
   </div>
 
@@ -240,7 +241,9 @@ pacientes.forEach(p => {
 
     tabela.innerHTML += `
         <tr>
-          <td>${p.nome}</td>
+          <td>
+             <a href="pedido.html?email=${p.email}">
+            ${p.nome}</td>
           <td>${p.diagnostico}</td>
           <td>${p.progresso || "0%"}</td>
         </tr>

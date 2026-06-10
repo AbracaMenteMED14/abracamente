@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comunidade Nível 2 - Abracamente</title>
+
+<style>
+
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f4f7fb;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+
+h1{
+  text-align:center;
+  color:#2563eb;
+}
+
+/* POST CRIAR */
+.create{
+  background:white;
+  padding:15px;
+  border-radius:15px;
+  margin-bottom:20px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+textarea{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  resize:none;
+}
+
+input[type="file"]{
+  margin-top:10px;
+}
+
+/* BOTÃO */
+button{
+  background:#2563eb;
+  color:white;
+  border:none;
+  padding:10px 15px;
+  border-radius:10px;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+/* POST */
+.post{
+  background:white;
+  padding:15px;
+  border-radius:15px;
+  margin-bottom:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  animation:fade .3s ease;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+.post img{
+  width:100%;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+/* AÇÕES */
+.actions{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+
+.actions button{
+  flex:1;
+  font-size:13px;
+}
+
+/* cores */
+.like{background:#22c55e;}
+.love{background:#ef4444;}
+.support{background:#3b82f6;}
+.edit{background:#f59e0b;}
+.delete{background:#dc2626;}
+
+/* comentários */
+.comment-box{
+  margin-top:10px;
+  display:flex;
+  gap:5px;
+}
+
+.comment-box input{
+  flex:1;
+  padding:8px;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+.comment{
+  background:#f1f5f9;
+  padding:8px;
+  border-radius:10px;
+  margin-top:5px;
+  font-size:13px;
+}
+
+.reactions{
+  margin-top:10px;
+  display:flex;
+  gap:5px;
+}
+
+.reactions button{
+  padding:6px 10px;
+  font-size:12px;
+  border-radius:8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌍 Comunidade Nível 2</h1>
+
+<!-- CRIAR POST -->
+<div class="create">
+
+  <textarea id="text" placeholder="Escreve algo..."></textarea>
+  <input type="file" id="image">
+
+  <button onclick="createPost()">Publicar</button>
+
+</div>
+
+<!-- FEED -->
+<div id="feed"></div>
+
+</div>
+
+<script>
+
+// =====================
+// USER
+// =====================
+const user = JSON.parse(localStorage.getItem("loggedUser"));
+
+if(!user){
+  location.href = "login.html";
+}
+
+const isAdmin = user.type === "admin";
+
+// =====================
+// POSTS
+// =====================
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+// =====================
+// CRIAR POST
+// =====================
+function createPost(){
+
+  let text = document.getElementById("text").value;
+  let file = document.getElementById("image").files[0];
+
+  if(!text && !file){
+    alert("Escreve algo");
+    return;
+  }
+
+  let reader = new FileReader();
+
+  reader.onload = function(){
+
+    let post = {
+      id: Date.now(),
+      userEmail: user.email,
+      userName: user.nome,
+      text,
+      image: file ? reader.result : "",
+      likes: [],
+      reactions: { like:[], love:[], support:[] },
+      comments: [],
+      date: new Date().toLocaleDateString()
+    };
+
+    posts.unshift(post);
+    localStorage.setItem("posts", JSON.stringify(posts));
+
+    render();
+  };
+
+  if(file){
+    reader.readAsDataURL(file);
+  } else {
+    reader.onload();
+  }
+}
+
+// =====================
+// EDITAR ✔
+function editPost(id){
+
+  let post = posts.find(p => p.id === id);
+
+  let newText = prompt("Editar post:", post.text);
+
+  if(!newText || newText.trim() === "") return;
+
+  post.text = newText;
+
+  localStorage.setItem("posts", JSON.stringify(posts));
+  render();
+}
+
+// =====================
+// APAGAR
+// =====================
+function deletePost(id){
+
+  let post = posts.find(p => p.id === id);
+
+  if(post.userEmail !== user.email && !isAdmin){
+    alert("Sem permissão");
+    return;
+  }
+
+  posts = posts.filter(p => p.id !== id);
+
+  localStorage.setItem("posts", JSON.stringify(posts));
+  render();
+}
+
+// =====================
+// REAÇÕES
+// =====================
+function react(id,type){
+
+  let post = posts.find(p => p.id === id);
+
+  let arr = post.reactions[type];
+
+  let i = arr.indexOf(user.email);
+
+  if(i === -1){
+    arr.push(user.email);
+  } else {
+    arr.splice(i,1);
+  }
+
+  localStorage.setItem("posts", JSON.stringify(posts));
+  render();
+}
+
+// =====================
+// COMENTAR
+// =====================
+function comment(id){
+
+  let input = document.getElementById("c"+id);
+  let text = input.value;
+
+  if(!text) return;
+
+  let post = posts.find(p => p.id === id);
+
+  post.comments.push({
+    user:user.nome,
+    text
+  });
+
+  localStorage.setItem("posts", JSON.stringify(posts));
+
+  render();
+}
+
+// =====================
+// RENDER
+// =====================
+function render(){
+
+  let feed = document.getElementById("feed");
+  feed.innerHTML = "";
+
+  posts.forEach(p => {
+
+    feed.innerHTML += `
+      <div class="post">
+
+        <strong>${p.userName}</strong>
+        <p>${p.text}</p>
+
+        ${p.image ? `<img src="${p.image}">` : ""}
+
+        <!-- REAÇÕES -->
+        <div class="reactions">
+
+          <button class="like" onclick="react(${p.id},'like')">👍 ${p.reactions.like.length}</button>
+          <button class="love" onclick="react(${p.id},'love')">❤️ ${p.reactions.love.length}</button>
+          <button class="support" onclick="react(${p.id},'support')">💙 ${p.reactions.support.length}</button>
+
+        </div>
+
+        <!-- AÇÕES -->
+        <div class="actions">
+
+          ${(p.userEmail === user.email || isAdmin) ? `
+            <button class="edit" onclick="editPost(${p.id})">Editar</button>
+            <button class="delete" onclick="deletePost(${p.id})">Apagar</button>
+          ` : ""}
+
+        </div>
+
+        <!-- COMENTÁRIOS -->
+        <div class="comment-box">
+
+          <input id="c${p.id}" placeholder="Comentar...">
+          <button onclick="comment(${p.id})">Enviar</button>
+
+        </div>
+
+        ${p.comments.map(c => `
+          <div class="comment">
+            <b>${c.user}</b>: ${c.text}
+          </div>
+        `).join("")}
+
+      </div>
+    `;
+  });
+}
+
+render();
+
+</script>
+
+</body>
+</html>

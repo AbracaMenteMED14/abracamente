@@ -33,12 +33,20 @@ Ao clicar em entrar, você está aceitando nossos <a href="termos e politicas.ht
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
 
-    // 🔥 ADMIN MANUAL
-    if (email === "infoabracamente@gmail.com" && password === "Biologiamolecular") {
-        localStorage.setItem("role", "admin");
-        window.location.href = "admin.html";
-        return;
-    }
+  // 🔥 ADMIN MANUAL
+if (email === "infoabracamente@gmail.com" && password === "Biologiamolecular") {
+
+    const adminUser = {
+        email: email,
+        password: password,
+        nome: "Admin",
+        type: "admin"
+    };
+
+    localStorage.setItem("loggedUser", JSON.stringify(adminUser));
+    window.location.href = "admin.html";
+    return;
+}
 
     // 🔎 buscar utilizadores registados
     let users = JSON.parse(localStorage.getItem("users")) || [];

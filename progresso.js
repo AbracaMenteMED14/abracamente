@@ -1,32 +1,37 @@
-function calcularProgresso(email){
+function calcularProgresso(email) {
 
-  // ======================
-  // PEGAR DADOS
-  // ======================
-  const jogos = JSON.parse(localStorage.getItem("jogos_" + email)) || {};
-  const terapia = JSON.parse(localStorage.getItem("terapia_" + email)) || {};
-  const monitoramento = JSON.parse(localStorage.getItem("monitoramento_" + email)) || {};
+  let total = 0;
 
-  // ======================
-  // VALORES BASE
-  // ======================
+  // =========================
+  // JOGOS (100%)
+  // =========================
+  let jogos = JSON.parse(localStorage.getItem("jogos_" + email)) || {};
+  if (jogos.memoria) total += 30;
+  if (jogos.emocoes) total += 30;
+  if (jogos.quebra) total += 40;
 
-  // Jogos (30%)
-  let jogosScore = jogos.total || 0; // 0 a 100
+  // =========================
+  // TERAPIAS (100%)
+  // =========================
+  let terapias = JSON.parse(localStorage.getItem("terapia_" + email)) || {};
+  if (terapias.foco) total += 30;
+  if (terapias.respiracao) total += 30;
+  if (terapias.rotina) total += 40;
 
-  // Terapia (30%)
-  let terapiaScore = terapia.total || 0;
+  // =========================
+  // MONITORAMENTO (20%)
+  // =========================
+  let mon = JSON.parse(localStorage.getItem("monitoramento_progress_" + email)) || null;
 
-  // Monitoramento (40%)
-  let monitorScore = monitoramento.total || 0;
+  if (mon && mon.dias > 0) {
+    let media = mon.total / mon.dias;
 
-  // ======================
-  // PESO FINAL
-  // ======================
-  let total =
-    (jogosScore * 0.30) +
-    (terapiaScore * 0.30) +
-    (monitorScore * 0.40);
+    // transforma em impacto leve no progresso
+    total += Math.round((media / 100) * 20);
+  }
 
-  return Math.round(total);
+  // limite final
+  if (total > 100) total = 100;
+
+  return total;
 }

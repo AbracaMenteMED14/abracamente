@@ -96,7 +96,9 @@ h1{
 
 </div>
 
-<script>const perguntas = [
+<script>
+
+const perguntas = [
   {
     pergunta: "O João acabou de acordar. O que deve fazer primeiro?",
     respostas: ["Ir para escola","Escovar os dentes","Dormir","Jantar"],
@@ -200,24 +202,13 @@ function finalizar(){
 
   let key = "terapia_" + user.email;
 
-  let data = JSON.parse(localStorage.getItem(key)) || {
-    foco:0,
-    respiracao:0,
-    rotina:0,
-    total:0
-  };
+  let data = JSON.parse(localStorage.getItem(key)) || {};
 
-  // 📅 ROTINA = 40%
   if(acertos >= 4){
     data.rotina = 40;
   } else {
-    data.rotina = 10; // pequeno progresso mesmo se falhar
+    data.rotina = 10;
   }
-
-  data.total =
-    data.foco +
-    data.respiracao +
-    data.rotina;
 
   localStorage.setItem(key, JSON.stringify(data));
 
@@ -234,7 +225,8 @@ function finalizar(){
 }
 
 // iniciar
-mostrar();</script>
+mostrar();
+</script>
 
 </body>
 </html>

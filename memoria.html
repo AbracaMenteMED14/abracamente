@@ -173,17 +173,21 @@ function reset() {
 // 🎯 FINAL DO JOGO + SALVAR PROGRESSO
 function finishGame() {
 
-  alert("🎉 Parabéns! Completaste o jogo da memória (30%)");
+  alert("🎉 Parabéns! Completaste o jogo da memória (+30%)");
 
   let user = JSON.parse(localStorage.getItem("loggedUser"));
-
   if (!user) return;
 
   let key = "jogos_" + user.email;
 
-  let data = JSON.parse(localStorage.getItem(key)) || {};
+  let data = JSON.parse(localStorage.getItem(key)) || {
+    memoria: 0,
+    emocoes: 0,
+    quebra: 0
+  };
 
-  data.memoria = true;
+  // ✔ agora é valor, não boolean
+  data.memoria = 30;
 
   localStorage.setItem(key, JSON.stringify(data));
 

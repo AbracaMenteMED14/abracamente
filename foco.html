@@ -200,28 +200,38 @@ function selectAnswer(i){
 // =========================
 // FINAL + STORAGE
 // =========================
-function finish(){
+function finish() {
+
+  const user = JSON.parse(localStorage.getItem("loggedUser"));
+  if (!user) {
+    alert("Faz login primeiro");
+    window.location.href = "login.html";
+    return;
+  }
 
   const percent = Math.round((score / questions.length) * 100);
 
-  let key = "terapia_" + user.email;
+  const key = "terapia_" + user.email;
 
   let data = JSON.parse(localStorage.getItem(key)) || {
-    foco:0,
-    respiracao:0,
-    rotina:0,
-    total:0
+    foco: 0,
+    respiracao: 0,
+    rotina: 0,
+    total: 0
   };
 
-  // 👇 FOCO VALE 30%
-  if(score >= 3){
+  // =========================
+  // 🎯 FOCO (30%)
+  // =========================
+  if (score >= 3) {
 
     data.foco = 30;
 
+    // 🔥 recalcular total sempre atualizado
     data.total =
-      data.foco +
-      data.respiracao +
-      data.rotina;
+      (data.foco || 0) +
+      (data.respiracao || 0) +
+      (data.rotina || 0);
 
     localStorage.setItem(key, JSON.stringify(data));
 
@@ -246,7 +256,6 @@ function finish(){
     `;
   }
 }
-
 </script>
 
 </body>
