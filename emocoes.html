@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogo das Emoções</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f8fafc;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:800px;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+h1{
+    text-align:center;
+    color:#2563eb;
+    margin-bottom:20px;
+}
+
+.progress{
+    text-align:center;
+    margin-bottom:20px;
+    font-weight:bold;
+    color:#475569;
+}
+
+.question{
+    text-align:center;
+    font-size:22px;
+    margin-bottom:30px;
+    color:#0f172a;
+}
+
+.emotions{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.card{
+    background:white;
+    border:2px solid #e2e8f0;
+    border-radius:16px;
+    padding:20px;
+    cursor:pointer;
+    transition:.3s;
+    text-align:center;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#2563eb;
+    box-shadow:0 15px 25px rgba(37,99,235,.15);
+}
+
+.emoji{
+    font-size:45px;
+}
+
+.name{
+    margin-top:10px;
+    font-weight:bold;
+    color:#334155;
+}
+
+.message{
+    text-align:center;
+    margin-top:20px;
+    font-weight:bold;
+    min-height:25px;
+}
+
+.correct{
+    color:#16a34a;
+}
+
+.wrong{
+    color:#dc2626;
+}
+
+@media(max-width:700px){
+
+    .emotions{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:500px){
+
+    .emotions{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>😊 Jogo das Emoções</h1>
+
+    <div class="progress" id="progress">
+        Progresso: 0%
+    </div>
+
+    <div class="question" id="question"></div>
+
+    <div class="emotions">
+
+        <div class="card" onclick="answer('feliz')">
+            <div class="emoji">😊</div>
+            <div class="name">Feliz</div>
+        </div>
+
+        <div class="card" onclick="answer('triste')">
+            <div class="emoji">😢</div>
+            <div class="name">Triste</div>
+        </div>
+
+        <div class="card" onclick="answer('zangado')">
+            <div class="emoji">😡</div>
+            <div class="name">Zangado</div>
+        </div>
+
+        <div class="card" onclick="answer('medo')">
+            <div class="emoji">😨</div>
+            <div class="name">Com Medo</div>
+        </div>
+
+        <div class="card" onclick="answer('animado')">
+            <div class="emoji">🤩</div>
+            <div class="name">Animado</div>
+        </div>
+
+        <div class="card" onclick="answer('cansado')">
+            <div class="emoji">😴</div>
+            <div class="name">Cansado</div>
+        </div>
+
+    </div>
+
+    <div class="message" id="message"></div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+text:"Recebeste um presente especial.",
+correct:"feliz"
+},
+
+{
+text:"Perdeste algo importante.",
+correct:"triste"
+},
+
+{
+text:"Alguém te insultou sem motivo.",
+correct:"zangado"
+},
+
+{
+text:"Ouviste um barulho estranho à noite.",
+correct:"medo"
+},
+
+{
+text:"Vais viajar amanhã para um lugar que gostas.",
+correct:"animado"
+},
+
+{
+text:"Dormiste apenas duas horas.",
+correct:"cansado"
+}
+
+];
+
+let current = 0;
+let progress = 0;
+
+const question = document.getElementById("question");
+const message = document.getElementById("message");
+const progressText = document.getElementById("progress");
+
+showQuestion();
+
+function showQuestion(){
+
+    question.innerText = questions[current].text;
+
+}
+
+function answer(emotion){
+
+    if(emotion === questions[current].correct){
+
+        progress += 5;
+
+        message.className = "message correct";
+        message.innerText = "✔ Correto! +5%";
+
+        current++;
+
+        progressText.innerText =
+        "Progresso: " + progress + "%";
+
+        if(current >= questions.length){
+
+            finishGame();
+            return;
+
+        }
+
+        setTimeout(()=>{
+
+            message.innerText = "";
+            showQuestion();
+
+        },1000);
+
+    }
+
+    else{
+
+        message.className = "message wrong";
+        message.innerText = "❌ Tenta novamente";
+
+    }
+
+}
+
+function finishGame(){
+
+    let user =
+    JSON.parse(localStorage.getItem("loggedUser"));
+
+    if(user){
+
+        let key = "jogos_" + user.email;
+
+        let data =
+        JSON.parse(localStorage.getItem(key)) || {};
+
+        data.emocoes = true;
+        data.progressoEmocoes = 30;
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(data)
+        );
+
+    }
+
+    setTimeout(()=>{
+
+        alert("🎉 Parabéns! Completaste o jogo das emoções (+30%)");
+
+        window.location.href = "jogos.html";
+
+    },800);
+
+}
+
+</script>
+
+</body>
+</html>

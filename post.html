@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts - Abraçamente</title>
+    <link rel="shortcut icon" href="image/Abracamente.png" type="image/x-icon">
+</head>
+
+<style>
+    body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
+  line-height: 1.7;
+}
+
+/* container do artigo */
+.article-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* título */
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #1d4ed8;
+}
+
+/* conteúdo */
+#conteudo {
+  white-space: pre-line;
+  font-size: 16px;
+  color: #374151;
+}
+
+/* destaque de parágrafos */
+#conteudo p {
+  margin-bottom: 12px;
+}
+
+/* botão voltar (opcional) */
+.back {
+  display: inline-block;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+</style>
+<body>
+    <a class="back" href="blog.html">← Voltar ao blog</a>
+
+<div class="article-container">
+  <h1 id="titulo"></h1>
+  <div id="conteudo"></div>
+</div>
+
+<script>
+
+    //Mostrar dados reais
+    const artigos = {
+  tdah: {
+    titulo: "TDAH (Transtorno do Défice de Atenção e Hiperatividade)",
+
+    conteudo: `
+O TDAH é uma condição do neurodesenvolvimento que afeta crianças, adolescentes e adultos, caracterizada por padrões persistentes de desatenção, hiperatividade e impulsividade.
+
+📌 Características principais:
+• Dificuldade em manter a atenção por longos períodos
+• Esquecimento frequente de tarefas
+• Impulsividade em decisões e ações
+• Agitação motora constante
+
+🧠 Base científica:
+Estudos indicam que o TDAH está associado a alterações na atividade de neurotransmissores como dopamina e noradrenalina, responsáveis pelo controlo da atenção e motivação.
+
+🏫 Impacto no dia a dia:
+Pode afetar o desempenho escolar, relações sociais e organização pessoal.
+
+💡 Apoio recomendado:
+• Estrutura de rotina clara e consistente
+• Divisão de tarefas em etapas pequenas
+• Reforço positivo e acompanhamento psicológico especializado
+    `
+  },
+
+  autismo: {
+    titulo: "Autismo: sinais iniciais e compreensão do espectro",
+
+    conteudo: `
+O Transtorno do Espectro do Autismo (TEA) é uma condição neurodesenvolvimental que afeta a comunicação, interação social e comportamento.
+
+📌 Sinais iniciais:
+• Dificuldade no contacto visual
+• Atraso ou diferença na linguagem verbal
+• Interesse intenso por temas específicos
+• Comportamentos repetitivos
+
+🧠 Perspetiva científica:
+O autismo não é uma doença, mas sim uma variação no desenvolvimento neurológico, com forte componente genética e neurobiológica.
+
+🌍 Importante compreender:
+Cada pessoa no espectro é única, com diferentes níveis de suporte necessários.
+
+💡 Apoio recomendado:
+• Intervenção precoce
+• Ambientes estruturados e previsíveis
+• Comunicação adaptada às necessidades individuais
+    `
+  },
+
+  rotinas: {
+    titulo: "Como criar rotinas eficazes para organização e bem-estar",
+
+    conteudo: `
+As rotinas estruturadas são fundamentais para promover estabilidade emocional, especialmente em crianças e adolescentes.
+
+📌 Benefícios:
+• Redução da ansiedade
+• Melhoria da concentração
+• Aumento da autonomia
+• Organização do tempo diário
+
+🧠 Base psicológica:
+A previsibilidade ajuda o cérebro a reduzir carga cognitiva, permitindo melhor gestão emocional e comportamental.
+
+📅 Estratégias práticas:
+• Criar horários fixos para atividades diárias
+• Utilizar listas visuais ou quadros de tarefas
+• Dividir grandes tarefas em pequenas etapas
+• Reforçar positivamente o cumprimento de rotinas
+
+💡 Conclusão:
+Rotinas não são restrições, mas sim ferramentas de liberdade e equilíbrio.
+    `
+  }
+};
+//Pegar id da URL
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+//Mostrar artigo certo
+const artigo = artigos[id];
+
+if (artigo) {
+  document.getElementById("titulo").textContent = artigo.titulo;
+  document.getElementById("conteudo").textContent = artigo.conteudo;
+} else {
+  document.getElementById("titulo").textContent = "Artigo não encontrado";
+}
+
+</script>
+</body>
+</html>

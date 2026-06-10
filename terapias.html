@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terapia - AbraçaMente</title>
+
+
+  <link rel="shortcut icon" href="image/Abracamente.png" type="image/x-icon">
+</head>
+
+<style>
+    body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #1f1f1f;
+}
+
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header .logo {
+  font-weight: bold;
+  font-size: 20px;
+  color: #dbeafe;
+}
+
+.header nav a{
+
+  text-decoration:none;
+
+  color:#111;
+
+  font-size:16px;
+
+  font-weight:500;
+
+  transition:0.3s;
+}
+
+.header nav a:hover{
+
+  color:#2563eb;
+  font-weight: bolder;
+}
+
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 50px 20px;
+  background: #e6f0ff;
+}
+
+.hero h1 {
+  font-size: 32px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 40px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: black;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+/* FOOTER BASE */
+.footer {
+  width: 100%;
+  background: white;
+  padding: 60px 5%;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+/* CONTAINER RESPONSIVO */
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* LOGO */
+.footer-logo img {
+  width: 120px;
+  max-width: 100%;
+}
+
+/* LINKS */
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #111;
+  transition: 0.3s;
+}
+
+.footer-links a:hover {
+  color: #2563eb;
+  transform: translateX(5px);
+  font-weight: bold;
+}
+
+/* SOCIAL */
+.footer-social {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.social-icons a {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #111;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  background: #2563eb;
+  transform: translateY(-4px);
+}
+
+/* FOOTER BOTTOM */
+.footer-bottom {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #555;
+  font-size: 14px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+  .footer {
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+
+</style>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">AbraçaMente</div>
+
+    <nav>
+      <a href="index.html">Início</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Terapias e Apoio</h1>
+    <p>Explore conteúdos educativos, orientações e estratégias para diferentes necessidades.</p>
+  </section>
+
+  <!-- CATEGORIAS -->
+  <section class="grid">
+
+    <a href="tdah.html" class="card">
+      🧠 <h3>TDAH</h3>
+      <p>Apoio para atenção, foco e rotina.</p>
+    </a>
+
+    <a href="autismo.html" class="card">
+      🌈 <h3>Autismo</h3>
+      <p>Estratégias de comunicação e inclusão.</p>
+    </a>
+
+    <a href="down.html" class="card">
+      💙 <h3>Síndrome de Down</h3>
+      <p>Desenvolvimento e suporte familiar.</p>
+    </a>
+
+
+
+    <a href="orientacoes.html" class="card">
+      🧭 <h3>Orientações</h3>
+      <p>Guias para famílias e cuidadores.</p>
+    </a>
+
+  </section>
+
+  
+
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <!-- LOGO -->
+    <div class="footer-logo">
+      <img src="image/Abracamente.png" alt="AbraçaMente">
+      <p>Apoio à Neurodiversidade</p>
+    </div>
+
+    <!-- LINKS -->
+    <div class="footer-links">
+      <a href="blog.html">Blog</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+
+    <div class="footer-links">
+      <a href="termos e politicas.html">Termos</a>
+      <a href="termos e politicas">Privacidade</a>
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="footer-social">
+
+      <div class="social-icons">
+        <a href="https://www.instagram.com/_abracamente?utm_source=qr&igsh=cDUwMmJycWRzNjNk">
+
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </div>
+
+      <p>✉ infoabracamente@gmail.com</p>
+
+    </div>
+
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="footer-bottom">
+    <p>© AbraçaMente, 2026</p>
+    <p>Todos os direitos reservados</p>
+  </div>
+
+</footer>
+
+
+</body>
+</html>
